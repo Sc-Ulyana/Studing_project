@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -16,21 +17,7 @@
     </style>
 </head>
 <body>
-<div style="text-align: center">
-    <div id="header" style="display: inline-block;">Webapp</div>
-    <div style="float: right"><a href="exit">
-        <button class="form_button">Выход</button>
-    </a></div>
-    <div style="float: left" class="dropdown">
-        <button class="mainmenubtn">Меню</button>
-        <div class="dropdown-child">
-            <a href="welcome.jhtml">Главная</a>
-            <c:if test="${login=='admin'}">
-                <a href="users.jhtml">Список пользователей</a>
-            </c:if>
-        </div>
-    </div>
-</div>
+<t:header role="${role}" welcome="true" changePassword="false" usersPage="true"/>
 <div class="form_center">
     <form class="form" action="useredit.jhtml" method="post">
         <h1 class="title">Редактирование пользователя <c:out value="${editUser.getLogin()}"/></h1>
@@ -77,11 +64,10 @@
             </select>
             </span>
         </div>
-        <c:out value="${message}"/>
         <button class="form_button" type="submit">Сохранить</button>
     </form>
 </div>
-<div id="footer">&copy; Ulyana Duhovich</div>
+<t:footer/>
 </body>
 </html>
 

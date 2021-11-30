@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <html>
 <head>
     <title>Удаление пользователя</title>
@@ -15,12 +16,6 @@
     </style>
 </head>
 <body>
-<div style="text-align: center">
-    <div id="header" style="display: inline-block">Webapp</div>
-    <div style="float: right"><a href="exit">
-        <button class="form_button">Выход</button>
-    </a></div>
-</div>
 <div class="form_center">
     <div class="form">
     <h1 class="title">Удалить пользователя <c:out value="${usertodelete}"/>?</h1>
@@ -31,6 +26,6 @@
     </div>
 </div>
 </div>
-<div id="footer">&copy; Ulyana Duhovich</div>
+<t:footer/>
 </body>
 </html>

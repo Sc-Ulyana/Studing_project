@@ -1,0 +1,75 @@
+package web.servlets;
+
+import dao.MemoryUserDAOImpl;
+import service.UserServiceSingleton;
+import utilities.FieldsValidation;
+import domain.User;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
+
+@WebServlet("/useredit.jhtml")
+public class UserEditServlet extends HttpServlet {
+
+    String loginToEdit;
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        loginToEdit = req.getParameter("usertoedit");
+        HttpSession session = req.getSession();
+        ArrayList<User> users = (ArrayList<User>) session.getAttribute("usersList");
+        MemoryUserDAOImpl userDao = new MemoryUserDAOImpl();
+        for (User u : userDao.getAllUsers()) {
+            if (u.getLogin().equals(loginToEdit)) {
+                session.setAttribute("editUser", u);
+                break;
+            }
+        }
+        req.getRequestDispatcher("jsp/user_edit.jsp").forward(req, resp);
+    }
+
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        ArrayList<User> users = (ArrayList<User>) session.getAttribute("usersList");
+
+        String name = req.getParameter("name");
+        String surname = req.getParameter("surname");
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        String email = req.getParameter("email");
+        String dateOfBirth = req.getParameter("dateOfBirth");
+        String role = req.getParameter("role");
+
+        FieldsValidation fieldsValidation = new FieldsValidation();
+        String checkLogin = fieldsValidation.checkLogin(login);
+        String checkPassword = fieldsValidation.checkPassword(password);
+        String checkDate = fieldsValidation.checkDate(dateOfBirth);
+        String checkEmail = fieldsValidation.checkEmail(email);
+        String checkEmpty = fieldsValidation.checkEmpty(name,surname,login,password,email,dateOfBirth);
+
+        String errString = checkLogin + checkPassword + checkDate + checkEmail + checkEmpty;
+
+        if (errString.equals("Пользователь с таким именем уже существует.")) {
+            UserServiceSingleton.getInstance().getValue().editUser(name,surname,login,password,email,dateOfBirth,role);
+            req.setAttribute("usersList", UserServiceSingleton.getInstance().getValue().getAllUsers());
+            session.setAttribute("message", "Пользователь " + login + " отредактирован.");
+            resp.sendRedirect(req.getContextPath() + "/users.jhtml");
+        } else {
+            req.setAttribute("checkLogin", checkLogin);
+            req.setAttribute("checkPassword", checkPassword);
+            req.setAttribute("checkDate", checkDate);
+            req.setAttribute("checkEmail",checkEmail);
+            req.setAttribute("checkEmpty",checkEmpty);
+            req.getRequestDispatcher("/jsp/user_edit.jsp").forward(req, resp);
+        }
+    }
+}
+

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <html>
 <head>
     <title>Список пользователей</title>
@@ -16,20 +17,7 @@
     </style>
     <script src="https://kit.fontawesome.com/0ec0648ba6.js" crossorigin="anonymous"></script>
 </head>
-<body>
-<div style="text-align: center">
-    <div id="header" style="display: inline-block">Webapp</div>
-    <div style="float: right"><a href="exit">
-        <button class="form_button">Выход</button>
-    </a></div>
-    <div style="float: left" class="dropdown">
-        <button class="mainmenubtn">Меню</button>
-        <div class="dropdown-child">
-            <a href="welcome.jhtml">Главная</a>
-            <a href="loginedit.jhtml">Сменить пароль</a>
-        </div>
-    </div>
-</div>
+<t:header role="${role}" welcome="true" changePassword="true" usersPage="false"/>
 <div style="text-align: center">
     <p class="title" style="display: inline-block">Список пользователей</p>
     <button class="round_button" style="background-color: #029202; margin-left: 20px;"><a href="useradd.jhtml"><i class="fas fa-user-plus"></i></a></button>
@@ -60,6 +48,6 @@
         </tr>
     </c:forEach>
 </table>
-<div id="footer">&copy; Ulyana Duhovich</div>
+<t:footer/>
 </body>
 </html>

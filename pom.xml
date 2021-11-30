@@ -43,22 +43,6 @@
     <finalName>project</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
-<!--        <plugin>-->
-<!--          <groupId>org.eclipse.jetty</groupId>-->
-<!--          <artifactId>jetty-parent</artifactId>-->
-<!--          <version>9.4.20</version>-->
-<!--            <configuration>-->
-<!--              <scanIntervalSeconds>10</scanIntervalSeconds>-->
-<!--              <webApp>-->
-<!--                <contextPath>/webdipatch</contextPath>-->
-<!--              </webApp>-->
-<!--            </configuration>-->
-<!--        </plugin>-->
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.0.2</version>

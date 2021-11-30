@@ -1,12 +1,13 @@
 <%--
   Created by IntelliJ IDEA.
-  classes.User: uluan
+  domain.User: uluan
   Date: 19.10.2021
   Time: 15:49
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -16,21 +17,7 @@
     </style>
 </head>
 <body>
-<div style="text-align: center">
-    <div id="header" style="display: inline-block;">Webapp</div>
-    <div style="float: right"><a href="exit">
-        <button class="form_button">Выход</button>
-    </a></div>
-    <div style="float: left" class="dropdown">
-        <button class="mainmenubtn">Меню</button>
-        <div class="dropdown-child">
-            <a href="welcome.jhtml">Главная</a>
-            <c:if test="${role=='ROLE_ADMIN'}">
-                <a href="users.jhtml">Список пользователей</a>
-            </c:if>
-        </div>
-    </div>
-</div>
+<t:header role="${role}" welcome="true" changePassword="false" usersPage="true"/>
 <div class="form_center">
     <form class="form" action="loginedit.jhtml" method="post">
         <h1 class="title">Смена пароля</h1>
@@ -49,7 +36,7 @@
         <button class="form_button" type="submit">Сменить пароль</button>
     </form>
 </div>
-<div id="footer">&copy; Ulyana Duhovich</div>
+<t:footer/>
 </body>
 </html>
 

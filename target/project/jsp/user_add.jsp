@@ -7,59 +7,47 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Редактирование пользователя</title>
+    <title>Добавление пользователя</title>
     <style>
         <%@include file='../css/style.css' %>
     </style>
 </head>
 <body>
-<div style="text-align: center">
-    <div id="header" style="display: inline-block;">Webapp</div>
-    <div style="float: right"><a href="exit">
-        <button class="form_button">Выход</button>
-    </a></div>
-    <div style="float: left" class="dropdown">
-        <button class="mainmenubtn">Меню</button>
-        <div class="dropdown-child">
-            <a href="welcome.jhtml">Главная</a>
-            <c:if test="${login=='admin'}">
-                <a href="users.jhtml">Список пользователей</a>
-            </c:if>
-        </div>
-    </div>
-</div>
+<t:header role="${role}" welcome="true" changePassword="false" usersPage="true"/>
 <div class="form_center">
     <form class="form" action="useradd.jhtml" method="post">
         <h1 class="title">Добавление пользователя</h1>
         <div class="form_group">
-            <c:out value="${checkEmpty}"/>
             <input name="name" type="text" class="form_input" placeholder="Имя"/>
+            <c:if test="${name==null}"><c:out value="${checkEmpty}"/></c:if>
         </div>
         <div class="form_group">
             <input name="surname" type="text" class="form_input" placeholder="Фамилия"/>
+            <c:if test="${surname==null}"><c:out value="${checkEmpty}"/></c:if>
         </div>
         <div class="form_group">
-            <c:out value="${checkEmpty}"/>
-            <c:out value="${checkLogin}"/>
             <input name="login" type="text" class="form_input" placeholder="Логин"/>
+            <c:if test="${login==null}"><c:out value="${checkEmpty}"/></c:if>
+            <c:out value="${checkLogin}"/>
         </div>
         <div class="form_group">
-            <c:out value="${checkEmpty}"/>
-            <c:out value="${checkPassword}"/>
             <input name="password" type="password" class="form_input" placeholder="Пароль"/>
+            <c:if test="${password==null}"><c:out value="${checkEmpty}"/></c:if>
+            <c:out value="${checkPassword}"/>
         </div>
         <div class="form_group">
-            <c:out value="${checkEmpty}"/>
-            <c:out value="${checkEmail}"/>
             <input name="email" type="text" class="form_input" placeholder="Email"/>
+            <c:if test="${email==null}"><c:out value="${checkEmpty}"/></c:if>
+            <c:out value="${checkEmail}"/>
         </div>
         <div class="form_group">
-            <c:out value="${checkEmpty}"/>
+            <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01" max="2021-01-01"/>
+            <c:if test="${dateOfBirth==null}"><c:out value="${checkEmpty}"/></c:if>
             <c:out value="${checkDate}"/>
-            <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01" max="2021-01-01" value="${editUser.getDateOfBirth()}"/>
         </div>
         <div class="form_group">
             <span class="custom-dropdown big">
@@ -72,7 +60,7 @@
         <button class="form_button" type="submit">Сохранить</button>
     </form>
 </div>
-<div id="footer">&copy; Ulyana Duhovich</div>
+<t:footer/>
 </body>
 </html>
 
