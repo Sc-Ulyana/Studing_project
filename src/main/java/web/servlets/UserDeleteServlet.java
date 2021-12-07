@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet(name = "UserEditServlet", value = "/userdelete.jhtml")
+@WebServlet(name = "UserDeleteServlet", value = "/userdelete.jhtml")
 public class UserDeleteServlet extends HttpServlet {
     String login;
     @Override

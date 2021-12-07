@@ -2,6 +2,7 @@ package web.servlets;
 
 import domain.User;
 import service.UserService;
+import service.UserServiceSingleton;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -24,9 +25,8 @@ public class LoginEditServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
-        UserService userService = (UserService) session.getAttribute("userService");
         String login = (String) session.getAttribute("login");
-        if (userService.editPassword(login,oldPassword,newPassword,newPasswordRepeat)) {
+        if (UserServiceSingleton.getInstance().getValue().editPassword(login,oldPassword,newPassword,newPasswordRepeat)) {
             req.setAttribute("message", "Пароль успешно сменен");
             req.getRequestDispatcher("/jsp/welcome.jsp").forward(req, resp);
         } else {

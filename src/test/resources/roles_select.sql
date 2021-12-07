@@ -1,10 +1,10 @@
-SELECT user_id, role_id, owner.roles.name, owner.users.login
+SELECT  role_id,owner.roles.name, user_id, owner.users.login
 FROM owner.user_roles
          LEFT JOIN owner.roles on owner.roles.id = user_roles.role_id
          RIGHT JOIN owner.users on owner.users.id = user_roles.user_id;
 
 INSERT INTO owner.user_roles
-VALUES ('1', '2'),
+VALUES ('1', '1'),
        ('1', '3'),
        ('1', '4');
 

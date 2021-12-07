@@ -1,30 +1,40 @@
 package domain;
 
+
+import service.UserServiceSingleton;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
 public class User {
-    private String name;
-    private String surname;
+    private int id;
+    //private String surname;
     private String login;
     private String password;
-    private String email;
-    private String dateOfBirth;
-    private String role;
+    private String name;
+    //private String email;
+    private Date dateOfBirth;
+    private int age;
+    private BigDecimal salary;
+    private ArrayList<Role> roles;
 
-    public User(String name,String surname, String login, String password, String email, String dateOfBirth, String role) {
+    public User(int id, String name, String login, String password, Date dateOfBirth,int age,BigDecimal salary) {
+        this.id = id;
         this.name = name;
-        this.surname = surname;
+      //  this.surname = surname;
         this.login = login;
         this.password = password;
-        this.email = email;
+      //  this.email = email;
         this.dateOfBirth = dateOfBirth;
-        this.role = role;
+        this.age=age;
+        this.salary=salary;
     }
-
     public String getName() { return name; }
 
-    public String getSurname() { return surname; }
+    //   public String getSurname() { return surname; }
 
     public String getLogin() {
         return login;
@@ -34,17 +44,21 @@ public class User {
         return password;
     }
 
-    public String getEmail() { return email; }
+//    public String getEmail() { return email; }
 
-    public String getDateOfBirth() { return dateOfBirth; }
+    public Date getDateOfBirth() { return dateOfBirth; }
 
-    public String getRole() {
-        return role;
+    public int getAge() {
+        return age;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
     }
 
     public void setName(String name) { this.name = name; }
 
-    public void setSurname(String surname) { this.surname = surname; }
+    // public void setSurname(String surname) { this.surname = surname; }
 
     public void setLogin(String login) { this.login = login; }
 
@@ -52,31 +66,47 @@ public class User {
         this.password = password;
     }
 
-    public void setEmail(String email) { this.email = email; }
+   // public void setEmail(String email) { this.email = email; }
 
-    public void setDateOfBirth(String dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+    public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 
-    public void setRole(String role){this.role = role; }
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        User user = (User) o;
-//        return Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(role, user.role);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(login, password, role);
-//    }
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setRoles(ArrayList<Role> roles) {
+        this.roles = roles;
+    }
+
+    public ArrayList<Role> getRoles() {
+        return roles;
+    }
 
     @Override
     public String toString() {
         return "User{" +
                 "login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
+                ", roles='" + roles.toString() + '\'' +
                 '}';
+    }
+
+    public boolean hasRole(String role) {
+        String strRoles = roles.toString();
+        if(strRoles.contains(role)){
+            System.out.println("true");
+        return true;
+        }else{
+            System.out.println("false");
+            return false;
+        }
     }
 }

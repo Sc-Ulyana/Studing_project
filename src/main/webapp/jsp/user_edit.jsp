@@ -17,17 +17,13 @@
     </style>
 </head>
 <body>
-<t:header role="${role}" welcome="true" changePassword="false" usersPage="true"/>
+<t:header welcome="true" changePassword="false" usersPage="true"/>
 <div class="form_center">
-    <form class="form" action="useredit.jhtml" method="post">
-        <h1 class="title">Редактирование пользователя <c:out value="${editUser.getLogin()}"/></h1>
+    <form class="form" style="margin-top:200px" action="useredit.jhtml" method="post">
+        <h1 class="form_title">Редактирование пользователя <c:out value="${editUser.getLogin()}"/></h1>
         <div class="form_group">
             <c:out value="${checkEmpty}"/>
             <input name="name" type="text" class="form_input" placeholder="Имя" value="${editUser.getName()}"/>
-        </div>
-        <div class="form_group">
-            <c:out value="${checkEmpty}"/>
-            <input name="surname" type="text" class="form_input" placeholder="Фамилия" value="${editUser.getSurname()}"/>
         </div>
         <div class="form_group">
             <c:out value="${checkEmpty}"/>
@@ -36,35 +32,51 @@
         <div class="form_group">
             <c:out value="${checkEmpty}"/>
             <c:out value="${checkPassword}"/>
-            <input name="password" type="password" class="form_input" placeholder="Пароль" value="${editUser.getPassword()}"/>
+            <input name="password" type="password" class="form_input" placeholder="Пароль"
+                   value="${editUser.getPassword()}"/>
         </div>
         <div class="form_group">
-            <c:out value="${checkEmpty}"/>
-            <c:out value="${checkEmail}"/>
-            <input name="email" type="text" class="form_input" placeholder="Email" value="${editUser.getEmail()}"/>
+            <input name="age" type="number" class="form_input" placeholder="Возраст" value="${editUser.getAge()}"/>
         </div>
         <div class="form_group">
             <c:out value="${checkEmpty}"/>
             <c:out value="${checkDate}"/>
-            <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01" max="2021-01-01" value="${editUser.getDateOfBirth()}"/>
+            <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01"
+                   max="2021-01-01" value="${editUser.getDateOfBirth()}"/>
         </div>
         <div class="form_group">
-            <span class="custom-dropdown big">
-            <select name="role">
-                <c:choose>
-                <c:when test="${editUser.getRole()=='ROLE_ADMIN'}">
-                    <option>ROLE_ADMIN</option>
-                    <option>ROLE_USER</option>
-                </c:when>
-                <c:otherwise>
-                    <option>ROLE_USER</option>
-                    <option>ROLE_ADMIN</option>
-                </c:otherwise>
-                </c:choose>
-            </select>
-            </span>
+            <input name="salary" type="text" class="form_input" placeholder="Зарплата" value="${editUser.getSalary()}"/>
         </div>
-        <button class="form_button" type="submit">Сохранить</button>
+        <div class="form_group">
+                <p>
+                    <input type="checkbox" class="custom-checkbox" id="1" name="role" value="ROLE_ADMIN"
+                           <c:if test="${editUser.hasRole('ROLE_ADMIN')}">checked="checked"</c:if>>
+                    <label for="1">Админ</label>
+                </p>
+                <p>
+                    <input type="checkbox" class="custom-checkbox" id="2" name="role" value="ROLE_USER"
+                           <c:if test="${editUser.hasRole('ROLE_USER')}">checked="checked"</c:if>>
+                    <label for="2">Пользователь</label>
+                </p>
+                <p>
+                    <input type="checkbox" class="custom-checkbox" id="3" name="role" value="ROLE_DEVELOPER"
+                           <c:if test="${editUser.hasRole('ROLE_DEVELOPER')}">checked="checked"</c:if>>
+                    <label for="3">Разработчик</label>
+                </p>
+                <p>
+                    <input type="checkbox" class="custom-checkbox" id="4" name="role" value="ROLE_MANAGER"
+                           <c:if test="${editUser.hasRole('ROLE_MANAGER')}">checked="checked"</c:if>>
+                    <label for="4">Менеджер</label>
+                </p>
+                <p>
+                    <input type="checkbox" class="custom-checkbox" id="5" name="role" value="ROLE_TRAINEE"
+                           <c:if test="${editUser.hasRole('ROLE_TRAINEE')}">checked="checked"</c:if>>
+                    <label for="5">Стажер</label>
+                </p>
+        </div>
+        <div class="form_group">
+            <button class="form_button" type="submit">Сохранить</button>
+        </div>
     </form>
 </div>
 <t:footer/>

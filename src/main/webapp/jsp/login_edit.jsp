@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-<t:header role="${role}" welcome="true" changePassword="false" usersPage="true"/>
+<t:header welcome="true" changePassword="false" usersPage="true"/>
 <div class="form_center">
     <form class="form" action="loginedit.jhtml" method="post">
         <h1 class="title">Смена пароля</h1>

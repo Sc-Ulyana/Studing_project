@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-<t:header role="${role}" welcome="false" changePassword="true" usersPage="true"/>
+<t:header welcome="false" changePassword="true" usersPage="true"/>
 <div align="right">
     <p><c:out value="${message}"/></p>
     <h1 class="title"><b>Добро пожаловать,<c:out value="${name} ${surname}"/></b></h1>

@@ -17,17 +17,13 @@
     </style>
 </head>
 <body>
-<t:header role="${role}" welcome="true" changePassword="false" usersPage="true"/>
+<t:header welcome="true" changePassword="false" usersPage="true"/>
 <div class="form_center">
-    <form class="form" action="useradd.jhtml" method="post">
-        <h1 class="title">Добавление пользователя</h1>
+    <form class="form" style="margin-top: 230px" action="useradd.jhtml" method="post">
+        <h1 class="form_title">Добавление пользователя</h1>
         <div class="form_group">
             <input name="name" type="text" class="form_input" placeholder="Имя"/>
             <c:if test="${name==null}"><c:out value="${checkEmpty}"/></c:if>
-        </div>
-        <div class="form_group">
-            <input name="surname" type="text" class="form_input" placeholder="Фамилия"/>
-            <c:if test="${surname==null}"><c:out value="${checkEmpty}"/></c:if>
         </div>
         <div class="form_group">
             <input name="login" type="text" class="form_input" placeholder="Логин"/>
@@ -39,25 +35,44 @@
             <c:if test="${password==null}"><c:out value="${checkEmpty}"/></c:if>
             <c:out value="${checkPassword}"/>
         </div>
+
         <div class="form_group">
-            <input name="email" type="text" class="form_input" placeholder="Email"/>
-            <c:if test="${email==null}"><c:out value="${checkEmpty}"/></c:if>
-            <c:out value="${checkEmail}"/>
+            <input name="age" type="number" class="form_input" placeholder="Возраст"/>
         </div>
         <div class="form_group">
-            <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01" max="2021-01-01"/>
+            <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01"
+                   max="2021-01-01"/>
             <c:if test="${dateOfBirth==null}"><c:out value="${checkEmpty}"/></c:if>
             <c:out value="${checkDate}"/>
         </div>
         <div class="form_group">
-            <span class="custom-dropdown big">
-            <select name="role">
-                <option>ROLE_ADMIN</option>
-                <option>ROLE_USER</option>>
-            </select>
-            </span>
+            <input name="salary" type="text" class="form_input" placeholder="Зарплата"/>
         </div>
-        <button class="form_button" type="submit">Сохранить</button>
+        <div class="form_group">
+            <p>
+                <input type="checkbox" class="custom-checkbox" id="1" name="role" value="ROLE_ADMIN">
+                <label for="1">Админ</label>
+            </p>
+            <p>
+                <input type="checkbox" class="custom-checkbox" id="2" name="role" value="ROLE_USER">
+                <label for="2">Пользователь</label>
+            </p>
+            <p>
+                <input type="checkbox" class="custom-checkbox" id="3" name="role" value="ROLE_DEVELOPER">
+                <label for="3">Разработчик</label>
+            </p>
+            <p>
+                <input type="checkbox" class="custom-checkbox" id="4" name="role" value="ROLE_MANAGER">
+                <label for="4">Менеджер</label>
+            </p>
+            <p>
+                <input type="checkbox" class="custom-checkbox" id="5" name="role" value="ROLE_TRAINEE">
+                <label for="5">Стажер</label>
+            </p>
+        </div>
+        <div class="form_group">
+            <button class="form_button" type="submit">Сохранить</button>
+        </div>
     </form>
 </div>
 <t:footer/>

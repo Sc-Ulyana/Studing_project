@@ -1,6 +1,8 @@
 package web.servlets;
 
 import dao.MemoryUserDAOImpl;
+import dao.SqlUserDaoImpl;
+import domain.Role;
 import service.UserServiceSingleton;
 import utilities.FieldsValidation;
 import domain.User;
@@ -12,9 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-@WebServlet("/useredit.jhtml")
+@WebServlet(name="UserEditServlet", value="/useredit.jhtml")
 public class UserEditServlet extends HttpServlet {
 
     String loginToEdit;
@@ -24,7 +29,7 @@ public class UserEditServlet extends HttpServlet {
         loginToEdit = req.getParameter("usertoedit");
         HttpSession session = req.getSession();
         ArrayList<User> users = (ArrayList<User>) session.getAttribute("usersList");
-        MemoryUserDAOImpl userDao = new MemoryUserDAOImpl();
+        SqlUserDaoImpl userDao = new SqlUserDaoImpl();
         for (User u : userDao.getAllUsers()) {
             if (u.getLogin().equals(loginToEdit)) {
                 session.setAttribute("editUser", u);
@@ -41,35 +46,38 @@ public class UserEditServlet extends HttpServlet {
         ArrayList<User> users = (ArrayList<User>) session.getAttribute("usersList");
 
         String name = req.getParameter("name");
-        String surname = req.getParameter("surname");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        String email = req.getParameter("email");
+        int age = Integer.valueOf(req.getParameter("age"));
         String dateOfBirth = req.getParameter("dateOfBirth");
-        String role = req.getParameter("role");
+        BigDecimal salary = BigDecimal.valueOf(Long.parseLong(req.getParameter("salary")));
 
+        ArrayList<Role> role = (ArrayList<Role>) req.getParameterMap();
+
+        ArrayList<Role> roles = null;
         FieldsValidation fieldsValidation = new FieldsValidation();
         String checkLogin = fieldsValidation.checkLogin(login);
         String checkPassword = fieldsValidation.checkPassword(password);
         String checkDate = fieldsValidation.checkDate(dateOfBirth);
-        String checkEmail = fieldsValidation.checkEmail(email);
-        String checkEmpty = fieldsValidation.checkEmpty(name,surname,login,password,email,dateOfBirth);
+//        String checkEmail = fieldsValidation.checkEmail(email);
+//        String checkEmpty = fieldsValidation.checkEmpty(name/*,surname*/,login,password/*,email*/,dateOfBirth);
 
-        String errString = checkLogin + checkPassword + checkDate + checkEmail + checkEmpty;
+        //      String errString = checkLogin + checkPassword + checkDate + checkEmail + checkEmpty;
 
-        if (errString.equals("Пользователь с таким именем уже существует.")) {
-            UserServiceSingleton.getInstance().getValue().editUser(name,surname,login,password,email,dateOfBirth,role);
-            req.setAttribute("usersList", UserServiceSingleton.getInstance().getValue().getAllUsers());
-            session.setAttribute("message", "Пользователь " + login + " отредактирован.");
-            resp.sendRedirect(req.getContextPath() + "/users.jhtml");
-        } else {
-            req.setAttribute("checkLogin", checkLogin);
-            req.setAttribute("checkPassword", checkPassword);
-            req.setAttribute("checkDate", checkDate);
-            req.setAttribute("checkEmail",checkEmail);
-            req.setAttribute("checkEmpty",checkEmpty);
-            req.getRequestDispatcher("/jsp/user_edit.jsp").forward(req, resp);
-        }
+//        if (errString.equals("Пользователь с таким именем уже существует.")) {
+        UserServiceSingleton.getInstance().getValue().editUser(name,login,password,dateOfBirth,age,salary,roles);
+        req.setAttribute("usersList", UserServiceSingleton.getInstance().getValue().getAllUsers());
+        session.setAttribute("message", "Пользователь " + login + " отредактирован.");
+        resp.sendRedirect(req.getContextPath() + "/users.jhtml");
+//        } else {
+//            req.setAttribute("checkLogin", checkLogin);
+//            req.setAttribute("checkPassword", checkPassword);
+//            req.setAttribute("checkDate", checkDate);
+//            req.setAttribute("checkEmail",checkEmail);
+//            req.setAttribute("checkEmpty",checkEmpty);
+//            req.getRequestDispatcher("/jsp/user_edit.jsp").forward(req, resp);
+//        }
+//    }
     }
 }
 

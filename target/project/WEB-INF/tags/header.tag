@@ -1,5 +1,5 @@
 ﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ attribute name="role" required="true" %>
+<%--<%@ attribute name="role" required="true" %>--%>
 <%@ attribute name="welcome" required="true" %>
 <%@ attribute name="changePassword" required="true" %>
 <%@ attribute name="usersPage" required="true" %>
@@ -12,9 +12,13 @@
         <button class="mainmenubtn">Меню</button>
         <div class="dropdown-child">
             <c:if test="${usersPage}">
-                <c:if test="${role=='ROLE_ADMIN'}">
-                    <a href="users.jhtml">Список пользователей</a>
-                </c:if>
+                <c:forEach items="${role}" var="foo">
+                    <tr>
+                        <c:if test="${foo.name=='ROLE_ADMIN'}">
+                            <a href="users.jhtml">Список пользователей</a>
+                        </c:if>
+                    </tr>
+                </c:forEach>
             </c:if>
             <c:if test="${welcome}"><a href="welcome.jhtml">Главная</a></c:if>
             <c:if test="${changePassword}"><a href="loginedit.jhtml">Сменить пароль</a></c:if>

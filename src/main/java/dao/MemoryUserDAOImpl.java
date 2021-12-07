@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class MemoryUserDAOImpl implements UserDAO {
     @Override
     public void addUser(String name, String surname, String login, String password, String email, String dateOfBirth, String role) {
-        UserStorage.users.add(new User(name, surname, login, password, email, dateOfBirth, role));
+      //  UserStorage.users.add(new User(name, surname, login, password, email, dateOfBirth, role));
     }
 
     @Override
@@ -26,7 +26,7 @@ public class MemoryUserDAOImpl implements UserDAO {
         for (User user : UserStorage.users) {
             if (user.getLogin().equals(login)) {
                 int userIndex = UserStorage.users.indexOf(user);
-                UserStorage.users.set(userIndex, new User(name, surname, login, password, email, dateOfBirth, role));
+        //        UserStorage.users.set(userIndex, new User(name, surname, login, password, email, dateOfBirth, role));
             }
         }
     }

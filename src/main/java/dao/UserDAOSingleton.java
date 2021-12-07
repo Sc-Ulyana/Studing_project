@@ -1,11 +1,11 @@
 package dao;
 
 public class UserDAOSingleton {
-    public UserDAO value;
+    public SqlUserDAO value;
     private static UserDAOSingleton instance;
 
     private UserDAOSingleton() {
-        this.value = new MemoryUserDAOImpl();
+        this.value = new SqlUserDaoImpl();
     }
 
     public static UserDAOSingleton getInstance() {
@@ -15,7 +15,7 @@ public class UserDAOSingleton {
         return instance;
     }
 
-    public UserDAO getValue() {
+    public SqlUserDAO getValue() {
         return value;
     }
 }

@@ -24,7 +24,7 @@
         <div class="form_group">
             <input name="password" type="password" class="form_input" placeholder="Пароль" value="${password}"/>
         </div>
-        <p style="color: red"><c:out value="${error}"/></p>
+        <p class="error"><c:out value="${errorEntrance}"/></p>
         <button type="submit" class="form_button">Войти</button>
     </form>
 </div>
