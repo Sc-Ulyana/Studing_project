@@ -1,8 +1,8 @@
 package web.servlets;
 
-import dao.MemoryUserDAOImpl;
 import dao.SqlUserDaoImpl;
 import domain.Role;
+import service.UserServiceImpl;
 import service.UserServiceSingleton;
 import utilities.FieldsValidation;
 import domain.User;
@@ -17,9 +17,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-@WebServlet(name="UserEditServlet", value="/useredit.jhtml")
+@WebServlet(name = "UserEditServlet", value = "/useredit.jhtml")
 public class UserEditServlet extends HttpServlet {
 
     String loginToEdit;
@@ -52,9 +51,12 @@ public class UserEditServlet extends HttpServlet {
         String dateOfBirth = req.getParameter("dateOfBirth");
         BigDecimal salary = BigDecimal.valueOf(Long.parseLong(req.getParameter("salary")));
 
-        ArrayList<Role> role = (ArrayList<Role>) req.getParameterMap();
+        String[] rolesChoice = req.getParameterValues("roleChoice");
+        ArrayList<Role> roles = new ArrayList<>();
+        for(String role:rolesChoice){
+            roles.add(UserServiceSingleton.getInstance().getValue().getRoleIdByRoleName(role));
+        }
 
-        ArrayList<Role> roles = null;
         FieldsValidation fieldsValidation = new FieldsValidation();
         String checkLogin = fieldsValidation.checkLogin(login);
         String checkPassword = fieldsValidation.checkPassword(password);
@@ -65,7 +67,7 @@ public class UserEditServlet extends HttpServlet {
         //      String errString = checkLogin + checkPassword + checkDate + checkEmail + checkEmpty;
 
 //        if (errString.equals("Пользователь с таким именем уже существует.")) {
-        UserServiceSingleton.getInstance().getValue().editUser(name,login,password,dateOfBirth,age,salary,roles);
+        UserServiceSingleton.getInstance().getValue().editUser(name, login, password, dateOfBirth, age, salary, roles);
         req.setAttribute("usersList", UserServiceSingleton.getInstance().getValue().getAllUsers());
         session.setAttribute("message", "Пользователь " + login + " отредактирован.");
         resp.sendRedirect(req.getContextPath() + "/users.jhtml");

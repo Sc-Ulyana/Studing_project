@@ -20,4 +20,6 @@ public interface UserService {
     boolean editUser(String name, String login, String password, String dateOfBirth, int age, BigDecimal salary, ArrayList<Role> roles);
 
     ArrayList<User> getAllUsers();
+
+    Role getRoleIdByRoleName(String name);
 }

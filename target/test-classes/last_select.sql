@@ -20,7 +20,7 @@ SELECT owner.users.*, owner.roles.name
 
 SELECT user_id, role_id, owner.roles.name FROM owner.user_roles LEFT OUTER JOIN owner.roles on owner.roles.id = user_roles.role_id LEFT OUTER JOIN owner.users on owner.users.id = user_roles.user_id where user_id=1;
 
-SELECT *, owner.roles.name FROM owner.users LEFT JOIN owner.user_roles ur on users.id = ur.user_id LEFT JOIN owner.roles r on r.id = ur.role_id WHERE login = 'vasya'
+SELECT *, owner.roles.name FROM owner.users LEFT JOIN owner.user_roles ur on users.id = ur.user_id LEFT JOIN owner.roles r on r.id = ur.role_id WHERE login = 'vasya';
 
 SELECT user_id, role_id, owner.roles.name FROM owner.user_roles LEFT OUTER JOIN owner.roles on owner.roles.id = user_roles.role_id LEFT OUTER JOIN owner.users on owner.users.id = user_roles.user_id where login='petya';
 

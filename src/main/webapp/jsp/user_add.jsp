@@ -50,23 +50,23 @@
         </div>
         <div class="form_group">
             <p>
-                <input type="checkbox" class="custom-checkbox" id="1" name="role" value="ROLE_ADMIN">
+                <input type="checkbox" class="custom-checkbox" id="1" name="roleChoice" value="ROLE_ADMIN">
                 <label for="1">Админ</label>
             </p>
             <p>
-                <input type="checkbox" class="custom-checkbox" id="2" name="role" value="ROLE_USER">
+                <input type="checkbox" class="custom-checkbox" id="2" name="roleChoice" value="ROLE_USER">
                 <label for="2">Пользователь</label>
             </p>
             <p>
-                <input type="checkbox" class="custom-checkbox" id="3" name="role" value="ROLE_DEVELOPER">
+                <input type="checkbox" class="custom-checkbox" id="3" name="roleChoice" value="ROLE_DEVELOPER">
                 <label for="3">Разработчик</label>
             </p>
             <p>
-                <input type="checkbox" class="custom-checkbox" id="4" name="role" value="ROLE_MANAGER">
+                <input type="checkbox" class="custom-checkbox" id="4" name="roleChoice" value="ROLE_MANAGER">
                 <label for="4">Менеджер</label>
             </p>
             <p>
-                <input type="checkbox" class="custom-checkbox" id="5" name="role" value="ROLE_TRAINEE">
+                <input type="checkbox" class="custom-checkbox" id="5" name="roleChoice" value="ROLE_TRAINEE">
                 <label for="5">Стажер</label>
             </p>
         </div>

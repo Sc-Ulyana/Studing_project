@@ -29,17 +29,16 @@ public class UserAddServlet extends HttpServlet {
         HttpSession session = req.getSession();
 
         String name = req.getParameter("name");
-//        String surname = req.getParameter("surname");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         int age = Integer.valueOf(req.getParameter("age"));
-//        String email = req.getParameter("email");
         String dateOfBirth = req.getParameter("dateOfBirth");
         BigDecimal salary = BigDecimal.valueOf(Double.valueOf(req.getParameter("salary")));
-        ArrayList<Role> role = null;
-        String[] outerArray = req.getParameterValues("role");
-        for (int i = 0; i < outerArray.length; i++) {
-            String[] innerArray=outerArray[i].split(",");
+
+        String[] rolesChoice = req.getParameterValues("roleChoice");
+        ArrayList<Role> roles = new ArrayList<>();
+        for(String role:rolesChoice){
+            roles.add(UserServiceSingleton.getInstance().getValue().getRoleIdByRoleName(role));
         }
 
 //        FieldsValidation fieldsValidation = new FieldsValidation();
@@ -55,7 +54,7 @@ public class UserAddServlet extends HttpServlet {
 
 //        if (errString.equals("")) {
 ////          session.setAttribute("message", "Пользователь " + login + " добавлен.");
-            UserServiceSingleton.getInstance().getValue().addUser(name,login,password,dateOfBirth,age,salary,role);
+            UserServiceSingleton.getInstance().getValue().addUser(name,login,password,dateOfBirth,age,salary,roles);
             resp.sendRedirect(req.getContextPath() + "/users.jhtml");
 //        } else {
 //            req.setAttribute("checkLogin", checkLogin);

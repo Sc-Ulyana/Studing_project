@@ -1,9 +1,7 @@
 package service;
 
-//import dao.MemoryUserDAOImpl;
 import dao.SqlUserDAO;
 import dao.SqlUserDaoImpl;
-import dao.UserDAO;
 import domain.Role;
 import domain.User;
 import utilities.ConnectionPool;
@@ -11,42 +9,42 @@ import utilities.ConnectionPool;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private SqlUserDAO sqlUserDao = new SqlUserDaoImpl();
-
 
     @Override
     public boolean addUser(String name, String login, String password, String dateOfBirth, int age, BigDecimal salary, ArrayList<Role> roles) {
-        if(sqlUserDao.getUser(login)==null){
-            sqlUserDao.addUser(name,login,password,dateOfBirth,age,salary,roles);
-        return true;
-        }else{
-        return false;
+        if (sqlUserDao.getUser(login) == null) {
+            sqlUserDao.addUser(name, login, password, dateOfBirth, age, salary, roles);
+            return true;
+        } else {
+            return false;
         }
     }
 
     @Override
     public boolean editPassword(String login, String oldPassword, String newPassword, String newPasswordRepeat) {
         String sql = "UPDATE owner.users SET password =? where login = ?";
-        boolean result=false;
-        try(Connection conn = ConnectionPool.getConnect();
-            PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-            preparedStatement.setString(2,login);
+        boolean result = false;
+        try (Connection conn = ConnectionPool.getConnect();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setString(2, login);
             for (User user : sqlUserDao.getAllUsers()) {
                 if (user.getLogin().equals(login)) {
                     if (user.getPassword().equals(oldPassword)) {
                         if (newPassword.equals(newPasswordRepeat)) {
-                            preparedStatement.setString(1,newPasswordRepeat);
+                            preparedStatement.setString(1, newPasswordRepeat);
                             preparedStatement.executeUpdate();
                             result = true;
                         }
                     }
                 }
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             result = false;
         }
@@ -55,9 +53,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean checkUser(String login, String password) {
-        for(User user : sqlUserDao.getAllUsers()){
-            if(user.getLogin().equals(login)){
-                if(user.getPassword().equals(password)){
+        for (User user : sqlUserDao.getAllUsers()) {
+            if (user.getLogin().equals(login)) {
+                if (user.getPassword().equals(password)) {
                     return true;
                 }
             }
@@ -77,12 +75,33 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean editUser(String name, String login, String password, String dateOfBirth, int age, BigDecimal salary, ArrayList<Role> roles) {
-        sqlUserDao.editUser(name,login,password,dateOfBirth,age,salary,roles);
+        sqlUserDao.editUser(name, login, password, dateOfBirth, age, salary, roles);
         return true;
     }
 
     @Override
     public ArrayList<User> getAllUsers() {
         return sqlUserDao.getAllUsers();
+    }
+
+    @Override
+    public Role getRoleIdByRoleName(String name) {
+        Role role = null;
+        String sql = "SELECT * FROM owner.roles WHERE name = ?";
+        try(Connection connection = ConnectionPool.getConnect();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1,name);
+            ResultSet rs_roles = preparedStatement.executeQuery();
+            if(rs_roles.next()){
+                role = new Role(
+                        rs_roles.getInt("id"),
+                        rs_roles.getString("name")
+                        );
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return role;
     }
 }

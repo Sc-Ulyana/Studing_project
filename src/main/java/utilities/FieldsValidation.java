@@ -34,15 +34,9 @@ public class FieldsValidation {
         }
     }
 
-    public static boolean isEmail(String email) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
 
-    public static boolean isEmpty(String name, String surname, String login, String password, String email, String dateOfBirth) {
-        if (name.isEmpty() || surname.isEmpty() || login.isEmpty() || password.isEmpty() || email.isEmpty() || dateOfBirth.isEmpty()) {
+    public static boolean isEmpty(String name, String login, String password, String dateOfBirth) {
+        if (name.isEmpty() || login.isEmpty() || password.isEmpty() || dateOfBirth.isEmpty()) {
             return false;
         } else {
             return true;
@@ -73,17 +67,9 @@ public class FieldsValidation {
         return dateMessage;
     }
 
-    public String checkEmail(String email) {
-        String emailMessage = "";
-        if (!isEmail(email)) {
-            emailMessage = "Неверный формат email.";
-        }
-        return emailMessage;
-    }
-
-    public String checkEmpty(String name, String surname, String login, String password, String email, String dateOfBirth) {
+    public String checkEmpty(String name, String login, String password, String dateOfBirth) {
         String emptyMessage = "";
-        if (!isEmpty(name, surname, login, password, email, dateOfBirth)) {
+        if (!isEmpty(name, login, password, dateOfBirth)) {
             emptyMessage = "Поле обязательно для заполнения.";
         }
         return emptyMessage;

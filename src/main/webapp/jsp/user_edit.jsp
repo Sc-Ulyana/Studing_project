@@ -47,32 +47,34 @@
         <div class="form_group">
             <input name="salary" type="text" class="form_input" placeholder="Зарплата" value="${editUser.getSalary()}"/>
         </div>
+
         <div class="form_group">
-                <p>
-                    <input type="checkbox" class="custom-checkbox" id="1" name="role" value="ROLE_ADMIN"
-                           <c:if test="${editUser.hasRole('ROLE_ADMIN')}">checked="checked"</c:if>>
-                    <label for="1">Админ</label>
-                </p>
-                <p>
-                    <input type="checkbox" class="custom-checkbox" id="2" name="role" value="ROLE_USER"
-                           <c:if test="${editUser.hasRole('ROLE_USER')}">checked="checked"</c:if>>
-                    <label for="2">Пользователь</label>
-                </p>
-                <p>
-                    <input type="checkbox" class="custom-checkbox" id="3" name="role" value="ROLE_DEVELOPER"
-                           <c:if test="${editUser.hasRole('ROLE_DEVELOPER')}">checked="checked"</c:if>>
-                    <label for="3">Разработчик</label>
-                </p>
-                <p>
-                    <input type="checkbox" class="custom-checkbox" id="4" name="role" value="ROLE_MANAGER"
-                           <c:if test="${editUser.hasRole('ROLE_MANAGER')}">checked="checked"</c:if>>
-                    <label for="4">Менеджер</label>
-                </p>
-                <p>
-                    <input type="checkbox" class="custom-checkbox" id="5" name="role" value="ROLE_TRAINEE"
-                           <c:if test="${editUser.hasRole('ROLE_TRAINEE')}">checked="checked"</c:if>>
-                    <label for="5">Стажер</label>
-                </p>
+            <p>
+                <input type="checkbox" class="custom-checkbox" id="1" onselect="${roleId == 1}" name="roleChoice"
+                       value="ROLE_ADMIN"
+                       <c:if test="${editUser.hasRole('ROLE_ADMIN')}">checked="checked"</c:if>>
+                <label for="1">Админ</label>
+            </p>
+            <p>
+                <input type="checkbox" class="custom-checkbox" id="2" name="roleChoice" value="ROLE_USER"
+                       <c:if test="${editUser.hasRole('ROLE_USER')}">checked="checked"</c:if>>
+                <label for="2">Пользователь</label>
+            </p>
+            <p>
+                <input type="checkbox" class="custom-checkbox" id="3" name="roleChoice" value="ROLE_DEVELOPER"
+                       <c:if test="${editUser.hasRole('ROLE_DEVELOPER')}">checked="checked"</c:if>>
+                <label for="3">Разработчик</label>
+            </p>
+            <p>
+                <input type="checkbox" class="custom-checkbox" id="4" name="roleChoice" value="ROLE_MANAGER"
+                       <c:if test="${editUser.hasRole('ROLE_MANAGER')}">checked="checked"</c:if>>
+                <label for="4">Менеджер</label>
+            </p>
+            <p>
+                <input type="checkbox" class="custom-checkbox" id="5" name="roleChoice" value="ROLE_TRAINEE"
+                       <c:if test="${editUser.hasRole('ROLE_TRAINEE')}">checked="checked"</c:if>>
+                <label for="5">Стажер</label>
+            </p>
         </div>
         <div class="form_group">
             <button class="form_button" type="submit">Сохранить</button>
