@@ -1,7 +1,5 @@
 package web.servlets;
 
-import dao.MemoryUserDAOImpl;
-import domain.User;
 import service.UserServiceSingleton;
 
 import javax.servlet.ServletException;

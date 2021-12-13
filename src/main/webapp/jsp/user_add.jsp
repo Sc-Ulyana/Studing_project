@@ -23,30 +23,34 @@
         <h1 class="form_title">Добавление пользователя</h1>
         <div class="form_group">
             <input name="name" type="text" class="form_input" placeholder="Имя"/>
-            <c:if test="${name==null}"><c:out value="${checkEmpty}"/></c:if>
+            <p class="error"><c:out value="${checkEmpty}"/></p>
         </div>
         <div class="form_group">
             <input name="login" type="text" class="form_input" placeholder="Логин"/>
-            <c:if test="${login==null}"><c:out value="${checkEmpty}"/></c:if>
-            <c:out value="${checkLogin}"/>
+            <p class="error"><c:out value="${checkEmpty}"/>
+                <c:out value="${checkLogin}"/></p>
         </div>
         <div class="form_group">
             <input name="password" type="password" class="form_input" placeholder="Пароль"/>
-            <c:if test="${password==null}"><c:out value="${checkEmpty}"/></c:if>
-            <c:out value="${checkPassword}"/>
+            <p class="error"><c:if test="${password==null}"><c:out value="${checkEmpty}"/></c:if>
+                <c:out value="${checkPassword}"/></p>
         </div>
 
         <div class="form_group">
             <input name="age" type="number" class="form_input" placeholder="Возраст"/>
+            <p class="error"><c:out value="${checkAge}"/>
+                <c:out value="${emptyAge}"/></p>
         </div>
         <div class="form_group">
             <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01"
                    max="2021-01-01"/>
-            <c:if test="${dateOfBirth==null}"><c:out value="${checkEmpty}"/></c:if>
-            <c:out value="${checkDate}"/>
+            <p class="error"><c:if test="${dateOfBirth==null}"><c:out value="${checkEmpty}"/></c:if>
+                <c:out value="${checkDate}"/></p>
         </div>
         <div class="form_group">
             <input name="salary" type="text" class="form_input" placeholder="Зарплата"/>
+            <p class="error"><c:out value="${emptySalary}"/>
+                <c:out value="${checkSalary}"/></p>
         </div>
         <div class="form_group">
             <p>
@@ -69,6 +73,7 @@
                 <input type="checkbox" class="custom-checkbox" id="5" name="roleChoice" value="ROLE_TRAINEE">
                 <label for="5">Стажер</label>
             </p>
+            <p class="error"><c:out value="${emptyRoles}"/></p>
         </div>
         <div class="form_group">
             <button class="form_button" type="submit">Сохранить</button>

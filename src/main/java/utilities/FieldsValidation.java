@@ -3,10 +3,9 @@ package utilities;
 import domain.User;
 import service.UserServiceSingleton;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class FieldsValidation {
 
@@ -34,18 +33,26 @@ public class FieldsValidation {
         }
     }
 
+    public static boolean isAge(Integer age) {
+        return age >= 18 && age <= 120;
+    }
 
-    public static boolean isEmpty(String name, String login, String password, String dateOfBirth) {
-        if (name.isEmpty() || login.isEmpty() || password.isEmpty() || dateOfBirth.isEmpty()) {
+    public static boolean isSalary(BigDecimal salary) {
+        if (salary != null) {
+            int intSalary = Integer.parseInt(salary.toString());
+            return intSalary >= 1000 && intSalary <= 20000;
+        }else {
             return false;
-        } else {
-            return true;
         }
     }
 
-    public String checkLogin(String login){
+    public static boolean isEmpty(String name, String login, String password, String dateOfBirth) {
+        return !name.isEmpty() && !login.isEmpty() && !password.isEmpty() && !dateOfBirth.isEmpty();
+    }
+
+    public String checkLogin(String login) {
         String loginMessage = "";
-        if(!isUniqueLogin(login)){
+        if (!isUniqueLogin(login)) {
             loginMessage = "Пользователь с таким именем уже существует.";
         }
         return loginMessage;
@@ -53,7 +60,7 @@ public class FieldsValidation {
 
     public String checkPassword(String password) {
         String passMessage = "";
-        if (!isPassword(password)) {
+        if (!isPassword(password) && !password.equals("")) {
             passMessage = "Слишком короткий пароль.";
         }
         return passMessage;
@@ -61,10 +68,26 @@ public class FieldsValidation {
 
     public String checkDate(String date) {
         String dateMessage = "";
-        if (!isDate(date)) {
+        if (!isDate(date) && !date.equals("")) {
             dateMessage = "Неверный формат даты.";
         }
         return dateMessage;
+    }
+
+    public String checkAge(Integer age) {
+        String ageMessage = "";
+        if (!isAge(age) && age.toString() != null) {
+            ageMessage = "Возрастной диапазон пользователя 18-120";
+        }
+        return ageMessage;
+    }
+
+    public String checkSalary(BigDecimal salary) {
+        String salaryMessage = "";
+        if (!isSalary(salary) && salary != null) {
+            salaryMessage = "Диапазон заработной платы 1000-20000";
+        }
+        return salaryMessage;
     }
 
     public String checkEmpty(String name, String login, String password, String dateOfBirth) {

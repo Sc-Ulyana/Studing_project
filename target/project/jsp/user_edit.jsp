@@ -22,30 +22,37 @@
     <form class="form" style="margin-top:200px" action="useredit.jhtml" method="post">
         <h1 class="form_title">Редактирование пользователя <c:out value="${editUser.getLogin()}"/></h1>
         <div class="form_group">
-            <c:out value="${checkEmpty}"/>
             <input name="name" type="text" class="form_input" placeholder="Имя" value="${editUser.getName()}"/>
+            <p class="error">
+                <c:out value="${checkEmpty}"/></p>
         </div>
         <div class="form_group">
-            <c:out value="${checkEmpty}"/>
             <input name="login" type="text" class="form_input" placeholder="Логин" value="${editUser.getLogin()}"/>
+            <p class="error"><c:out value="${checkEmpty}"/></p>
         </div>
         <div class="form_group">
-            <c:out value="${checkEmpty}"/>
-            <c:out value="${checkPassword}"/>
             <input name="password" type="password" class="form_input" placeholder="Пароль"
                    value="${editUser.getPassword()}"/>
+            <p class="error"><c:out value="${checkEmpty}"/>
+                <c:out value="${checkPassword}"/></p>
         </div>
         <div class="form_group">
-            <input name="age" type="number" class="form_input" placeholder="Возраст" value="${editUser.getAge()}"/>
+            <input name="age" type="number" class="form_input" placeholder="Возраст" min="18"
+                   value="${editUser.getAge()}"/>
+            <p class="error"><c:out value="${checkAge}"/>
+                <c:out value="${emptyAge}"/></p>
         </div>
         <div class="form_group">
-            <c:out value="${checkEmpty}"/>
-            <c:out value="${checkDate}"/>
             <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01"
                    max="2021-01-01" value="${editUser.getDateOfBirth()}"/>
+            <p class="error">
+                <c:out value="${checkEmpty}"/>
+                <c:out value="${checkDate}"/>
         </div>
         <div class="form_group">
-            <input name="salary" type="text" class="form_input" placeholder="Зарплата" value="${editUser.getSalary()}"/>
+            <input name="salary" type="text" class="form_input" placeholder="Зарплата" min="1000" value="${editUser.getSalary()}"/>
+            <p class="error"><c:out value="${emptySalary}"/>
+                <c:out value="${checkSalary}"/></p>
         </div>
 
         <div class="form_group">
@@ -75,6 +82,7 @@
                        <c:if test="${editUser.hasRole('ROLE_TRAINEE')}">checked="checked"</c:if>>
                 <label for="5">Стажер</label>
             </p>
+            <p class="error"><c:out value="${emptyRoles}"/></p>
         </div>
         <div class="form_group">
             <button class="form_button" type="submit">Сохранить</button>

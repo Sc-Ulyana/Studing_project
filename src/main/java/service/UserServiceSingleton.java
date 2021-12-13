@@ -1,8 +1,5 @@
 package service;
 
-import dao.UserDAO;
-import dao.UserDAOSingleton;
-
 public class UserServiceSingleton {
     public UserService value;
     private static UserServiceSingleton instance;
