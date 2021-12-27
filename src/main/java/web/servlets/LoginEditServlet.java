@@ -26,7 +26,7 @@ public class LoginEditServlet extends HttpServlet {
         HttpSession session = req.getSession();
 
         String login = (String) session.getAttribute("login");
-        if (UserServiceSingleton.getInstance().getValue().editPassword(login,oldPassword,newPassword,newPasswordRepeat)) {
+        if (UserServiceSingleton.getInstance().getValue().editPassword(login, oldPassword, newPassword, newPasswordRepeat)) {
             req.setAttribute("message", "Пароль успешно сменен");
             req.getRequestDispatcher("/jsp/welcome.jsp").forward(req, resp);
         } else {

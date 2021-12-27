@@ -24,23 +24,29 @@
         <div class="form_group">
             <input name="name" type="text" class="form_input" placeholder="Имя" value="${editUser.getName()}"/>
             <p class="error">
-                <c:out value="${checkEmpty}"/></p>
+                <c:out value="${checkEmpty}"/>
+            </p>
         </div>
         <div class="form_group">
             <input name="login" type="text" class="form_input" placeholder="Логин" value="${editUser.getLogin()}"/>
-            <p class="error"><c:out value="${checkEmpty}"/></p>
+            <p class="error">
+                <c:out value="${checkEmpty}"/>
+            </p>
         </div>
         <div class="form_group">
             <input name="password" type="password" class="form_input" placeholder="Пароль"
                    value="${editUser.getPassword()}"/>
             <p class="error"><c:out value="${checkEmpty}"/>
-                <c:out value="${checkPassword}"/></p>
+                <c:out value="${checkPassword}"/>
+            </p>
         </div>
         <div class="form_group">
-            <input name="age" type="number" class="form_input" placeholder="Возраст" min="18"
-                   value="${editUser.getAge()}"/>
-            <p class="error"><c:out value="${checkAge}"/>
-                <c:out value="${emptyAge}"/></p>
+            <input name="age" type="number" class="form_input" placeholder="Email"
+                   value="${editUser.getEmail()}"/>
+            <p class="error">
+                <c:out value="${checkAge}"/>
+                <c:out value="${emptyAge}"/>
+            </p>
         </div>
         <div class="form_group">
             <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01"
@@ -48,11 +54,14 @@
             <p class="error">
                 <c:out value="${checkEmpty}"/>
                 <c:out value="${checkDate}"/>
+            </p>
         </div>
         <div class="form_group">
             <input name="salary" type="text" class="form_input" placeholder="Зарплата" min="1000" value="${editUser.getSalary()}"/>
-            <p class="error"><c:out value="${emptySalary}"/>
-                <c:out value="${checkSalary}"/></p>
+            <p class="error">
+                <c:out value="${emptySalary}"/>
+                <c:out value="${checkSalary}"/>
+            </p>
         </div>
 
         <div class="form_group">

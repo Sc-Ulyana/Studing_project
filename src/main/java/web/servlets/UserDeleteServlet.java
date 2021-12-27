@@ -14,10 +14,11 @@ import java.util.ArrayList;
 @WebServlet(name = "UserDeleteServlet", value = "/userdelete.jhtml")
 public class UserDeleteServlet extends HttpServlet {
     String login;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         login = req.getParameter("usertodelete");
-        req.setAttribute("usertodelete",login);
+        req.setAttribute("usertodelete", login);
         req.getRequestDispatcher("jsp/user_delete.jsp").forward(req, resp);
     }
 

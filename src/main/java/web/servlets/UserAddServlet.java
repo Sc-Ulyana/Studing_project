@@ -1,7 +1,6 @@
 package web.servlets;
 
 import domain.Role;
-import service.UserServiceImpl;
 import service.UserServiceSingleton;
 import utilities.FieldsValidation;
 import domain.User;
@@ -14,79 +13,73 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @WebServlet("/useradd.jhtml")
 public class UserAddServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getAttribute("addUser");
         req.getRequestDispatcher("/jsp/user_add.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String emptySalary = "";
-        String emptyAge = "";
-        String rolesErr = "Выберите хотя бы одну роль.";
-        String emptyRoles = "";
-        String fieldEmpty = "Поле обязательно для заполнения";
-        int age = 0;
-        BigDecimal salary = null;
-        ArrayList<Role> roles = new ArrayList<>();
 
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-
-        if (req.getParameter("age").equals("")) {
-            session.setAttribute("emptyAge", fieldEmpty);
-            emptyAge = "1";
-        } else {
-            age = Integer.parseInt(req.getParameter("age"));
-        }
+        String email = req.getParameter("email");
         String dateOfBirth = req.getParameter("dateOfBirth");
 
-        if (req.getParameter("salary").equals("")) {
-            session.setAttribute("emptySalary", fieldEmpty);
-            emptySalary = "1";
-        } else {
-            salary = new BigDecimal(req.getParameter("salary"));
+        FieldsValidation fieldsValidation = new FieldsValidation();
+
+        boolean emptySalary = fieldsValidation.isEmptySalary(req.getParameter("salary"));
+        BigDecimal salary = fieldsValidation.setSalary(emptySalary, session, req.getParameter("salary"));
+
+        boolean emptyRoles = fieldsValidation.isEmptyRole(req.getParameterValues("roleChoice"));
+        ArrayList<Role> roles = fieldsValidation.setRoles(emptyRoles, session, req.getParameterValues("roleChoice"));
+
+        String checkLogin = fieldsValidation.checkLogin(login);
+        String checkPassword = fieldsValidation.checkPassword(password);
+        String checkDate = fieldsValidation.checkDate(dateOfBirth);
+        String checkSalary = fieldsValidation.checkSalary(salary);
+        String checkEmail = fieldsValidation.checkEmail(email);
+        String checkEmpty = fieldsValidation.checkEmpty(name, login, password, dateOfBirth, email);
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = sf.parse(dateOfBirth);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        if (req.getParameterValues("roleChoice") == null) {
-            req.setAttribute("emptyRoles", rolesErr);
-            emptyRoles = "1";
+        User user = new User(name, login, password, date, email, salary);
+        user.setRoles(roles);
+        session.setAttribute("addUser", user);
+
+        System.out.println("user" + user.getName());
+
+        String errString = checkLogin + checkPassword + checkDate + checkSalary + checkEmail + checkEmpty;
+
+        if (errString.equals("")) {
+            session.setAttribute("message", "Пользователь " + login + " добавлен.");
+            UserServiceSingleton.getInstance().getValue().addUser(name, login, password, dateOfBirth, email, salary, roles);
+            resp.sendRedirect(req.getContextPath() + "/users.jhtml");
         } else {
-            String[] rolesChoice = req.getParameterValues("roleChoice");
-            for (String role : rolesChoice) {
-                roles.add(UserServiceSingleton.getInstance().getValue().getRoleIdByRoleName(role));
-            }
-        }
-
-            FieldsValidation fieldsValidation = new FieldsValidation();
-            String checkLogin = fieldsValidation.checkLogin(login);
-            String checkPassword = fieldsValidation.checkPassword(password);
-            String checkDate = fieldsValidation.checkDate(dateOfBirth);
-            String checkAge = fieldsValidation.checkAge(age);
-            String checkSalary = fieldsValidation.checkSalary(salary);
-            String checkEmpty = fieldsValidation.checkEmpty(name, login, password, dateOfBirth);
-
-            String errString = checkLogin + checkPassword + checkDate + checkAge + checkSalary + checkEmpty + emptyRoles + emptySalary + emptyAge;
-
-            if (errString.equals("")) {
-                session.setAttribute("message", "Пользователь " + login + " добавлен.");
-                UserServiceSingleton.getInstance().getValue().addUser(name, login, password, dateOfBirth, age, salary, roles);
-                resp.sendRedirect(req.getContextPath() + "/users.jhtml");
-            } else {
-                req.setAttribute("checkLogin", checkLogin);
-                req.setAttribute("checkPassword", checkPassword);
-                req.setAttribute("checkDate", checkDate);
-                req.setAttribute("checkAge", checkAge);
-                req.setAttribute("checkSalary", checkSalary);
-                req.setAttribute("checkEmpty", checkEmpty);
-                req.getRequestDispatcher("/jsp/user_add.jsp").forward(req, resp);
-            }
+            req.setAttribute("checkLogin", checkLogin);
+            req.setAttribute("checkPassword", checkPassword);
+            req.setAttribute("checkDate", checkDate);
+            req.setAttribute("checkSalary", checkSalary);
+            req.setAttribute("checkEmpty", checkEmpty);
+            req.getRequestDispatcher("/jsp/user_add.jsp").forward(req, resp);
         }
     }
+}

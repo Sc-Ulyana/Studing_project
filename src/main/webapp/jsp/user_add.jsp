@@ -22,55 +22,73 @@
     <form class="form" style="margin-top: 230px" action="useradd.jhtml" method="post">
         <h1 class="form_title">Добавление пользователя</h1>
         <div class="form_group">
-            <input name="name" type="text" class="form_input" placeholder="Имя"/>
-            <p class="error"><c:out value="${checkEmpty}"/></p>
+            <input name="name" type="text" class="form_input" placeholder="Имя" value="${addUser.getName()}"/>
+            <p class="error">
+                <c:out value="${checkEmpty}"/>
+            </p>
         </div>
         <div class="form_group">
-            <input name="login" type="text" class="form_input" placeholder="Логин"/>
-            <p class="error"><c:out value="${checkEmpty}"/>
-                <c:out value="${checkLogin}"/></p>
+            <input name="login" type="text" class="form_input" placeholder="Логин" value="${addUser.getLogin()}"/>
+            <p class="error">
+                <c:out value="${checkEmpty}"/>
+                <c:out value="${checkLogin}"/>
+            </p>
         </div>
         <div class="form_group">
-            <input name="password" type="password" class="form_input" placeholder="Пароль"/>
-            <p class="error"><c:if test="${password==null}"><c:out value="${checkEmpty}"/></c:if>
-                <c:out value="${checkPassword}"/></p>
+            <input name="password" type="password" class="form_input" placeholder="Пароль"
+                   value="${addUser.getPassword()}"/>
+            <p class="error">
+                <c:if test="${password==null}"><c:out value="${checkEmpty}"/></c:if>
+                <c:out value="${checkPassword}"/>
+            </p>
         </div>
 
         <div class="form_group">
-            <input name="age" type="number" class="form_input" placeholder="Возраст"/>
-            <p class="error"><c:out value="${checkAge}"/>
-                <c:out value="${emptyAge}"/></p>
+            <input name="age" type="number" class="form_input" placeholder="Email" value="${addUser.getEmail()}"/>
+            <p class="error">
+                <c:out value="${checkAge}"/>
+                <c:out value="${emptyAge}"/>
+            </p>
         </div>
         <div class="form_group">
             <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01"
-                   max="2021-01-01"/>
-            <p class="error"><c:if test="${dateOfBirth==null}"><c:out value="${checkEmpty}"/></c:if>
-                <c:out value="${checkDate}"/></p>
+                   max="2021-01-01" value="${addUser.getDateOfBirth()}"/>
+            <p class="error">
+                <c:if test="${dateOfBirth==null}"><c:out value="${checkEmpty}"/></c:if>
+                <c:out value="${checkDate}"/>
+            </p>
         </div>
         <div class="form_group">
-            <input name="salary" type="text" class="form_input" placeholder="Зарплата"/>
-            <p class="error"><c:out value="${emptySalary}"/>
-                <c:out value="${checkSalary}"/></p>
+            <input name="salary" type="text" class="form_input" placeholder="Зарплата" value="${addUser.getSalary()}"/>
+            <p class="error">
+                <c:out value="${emptySalary}"/>
+                <c:out value="${checkSalary}"/>
+            </p>
         </div>
         <div class="form_group">
             <p>
-                <input type="checkbox" class="custom-checkbox" id="1" name="roleChoice" value="ROLE_ADMIN">
+                <input type="checkbox" class="custom-checkbox" id="1" name="roleChoice" value="ROLE_ADMIN"
+                       <c:if test="${addUser.hasRole('ROLE_ADMIN')}">checked="checked"</c:if>>
                 <label for="1">Админ</label>
             </p>
             <p>
-                <input type="checkbox" class="custom-checkbox" id="2" name="roleChoice" value="ROLE_USER">
+                <input type="checkbox" class="custom-checkbox" id="2" name="roleChoice" value="ROLE_USER"
+                       <c:if test="${addUser.hasRole('ROLE_USER')}">checked="checked"</c:if>>
                 <label for="2">Пользователь</label>
             </p>
             <p>
-                <input type="checkbox" class="custom-checkbox" id="3" name="roleChoice" value="ROLE_DEVELOPER">
+                <input type="checkbox" class="custom-checkbox" id="3" name="roleChoice" value="ROLE_DEVELOPER"
+                       <c:if test="${addUser.hasRole('ROLE_DEVELOPER')}">checked="checked"</c:if>>
                 <label for="3">Разработчик</label>
             </p>
             <p>
-                <input type="checkbox" class="custom-checkbox" id="4" name="roleChoice" value="ROLE_MANAGER">
+                <input type="checkbox" class="custom-checkbox" id="4" name="roleChoice" value="ROLE_MANAGER"
+                       <c:if test="${addUser.hasRole('ROLE_MANAGER')}">checked="checked"</c:if>>
                 <label for="4">Менеджер</label>
             </p>
             <p>
-                <input type="checkbox" class="custom-checkbox" id="5" name="roleChoice" value="ROLE_TRAINEE">
+                <input type="checkbox" class="custom-checkbox" id="5" name="roleChoice" value="ROLE_TRAINEE"
+                       <c:if test="${addUser.hasRole('ROLE_TRAINEE')}">checked="checked"</c:if>>
                 <label for="5">Стажер</label>
             </p>
             <p class="error"><c:out value="${emptyRoles}"/></p>

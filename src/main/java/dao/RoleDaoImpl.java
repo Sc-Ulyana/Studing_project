@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class RoleDaoImpl implements RoleDao{
     @Override
     public void addUserRole(int userId, ArrayList<Role> roles) {
-        String sqlInsertRoles = "INSERT INTO owner.user_roles (user_id, role_id) values (?, ?);";
+        String sqlInsertRoles = "INSERT INTO project.user_roles (user_id, role_id) values (?, ?);";
         try (Connection connection = DBConnection.getConnect();
              PreparedStatement preparedStatement = connection.prepareStatement(sqlInsertRoles)){
             for (Role r : roles) {
@@ -27,8 +27,8 @@ public class RoleDaoImpl implements RoleDao{
 
     @Override
     public void editUserRole(int userId, ArrayList<Role> roles) {
-        String sqlDeleteUserRoles = "DELETE  FROM owner.user_roles WHERE user_id = ?;";
-        String sqlInsertUserRoles = "INSERT INTO owner.user_roles (user_id, role_id) values (?, ?);";
+        String sqlDeleteUserRoles = "DELETE  FROM project.user_roles WHERE user_id = ?;";
+        String sqlInsertUserRoles = "INSERT INTO project.user_roles (user_id, role_id) values (?, ?);";
         try(Connection connection = DBConnection.getConnect();
         PreparedStatement preparedStatement = connection.prepareStatement(sqlDeleteUserRoles);
         PreparedStatement secondPreparedStatement = connection.prepareStatement(sqlInsertUserRoles)
@@ -49,7 +49,7 @@ public class RoleDaoImpl implements RoleDao{
 
     @Override
     public void getUserRoles(String login, ArrayList<Role> roles) {
-        String sqlRolesSelect = "SELECT user_id, role_id, owner.roles.name FROM owner.user_roles LEFT JOIN owner.roles on owner.roles.id = user_roles.role_id LEFT JOIN owner.users on owner.users.id = user_roles.user_id where login=?;";
+        String sqlRolesSelect = "SELECT user_id, role_id, project.roles.name FROM project.user_roles LEFT JOIN project.roles on project.roles.id = user_roles.role_id LEFT JOIN project.users on project.users.id = user_roles.user_id where login=?;";
         try(Connection connection = DBConnection.getConnect();
         PreparedStatement preparedStatement = connection.prepareStatement(sqlRolesSelect)){
             preparedStatement.setString(1,login);
@@ -68,7 +68,7 @@ public class RoleDaoImpl implements RoleDao{
 
     @Override
     public void getAllUsersRoles(int userId, ArrayList<Role> roles) {
-        String sqlRolesSelect = "SELECT user_id, role_id, owner.roles.name FROM owner.user_roles LEFT JOIN owner.roles on owner.roles.id = user_roles.role_id LEFT JOIN owner.users on owner.users.id = user_roles.user_id where user_id=?;";
+        String sqlRolesSelect = "SELECT user_id, role_id, project.roles.name FROM project.user_roles LEFT JOIN project.roles on project.roles.id = user_roles.role_id LEFT JOIN project.users on project.users.id = user_roles.user_id where user_id=?;";
         try(Connection connection = DBConnection.getConnect();
             PreparedStatement preparedStatement = connection.prepareStatement(sqlRolesSelect)){
             preparedStatement.setInt(1, userId);

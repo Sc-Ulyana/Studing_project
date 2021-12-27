@@ -1,11 +1,10 @@
 package web.servlets;
 
-import dao.SqlUserDaoImpl;
+import dao.UserDaoImpl;
 import domain.Role;
-import service.UserServiceImpl;
+import domain.User;
 import service.UserServiceSingleton;
 import utilities.FieldsValidation;
-import domain.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,20 +14,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 
 @WebServlet(name = "UserEditServlet", value = "/useredit.jhtml")
 public class UserEditServlet extends HttpServlet {
-
     String loginToEdit;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         loginToEdit = req.getParameter("usertoedit");
         HttpSession session = req.getSession();
-        ArrayList<User> users = (ArrayList<User>) session.getAttribute("usersList");
-        SqlUserDaoImpl userDao = new SqlUserDaoImpl();
+        UserDaoImpl userDao = new UserDaoImpl();
         for (User u : userDao.getAllUsers()) {
             if (u.getLogin().equals(loginToEdit)) {
                 session.setAttribute("editUser", u);
@@ -42,44 +41,59 @@ public class UserEditServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        ArrayList<User> users = (ArrayList<User>) session.getAttribute("usersList");
 
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        int age = Integer.valueOf(req.getParameter("age"));
-        String dateOfBirth = req.getParameter("dateOfBirth");
-        BigDecimal salary = BigDecimal.valueOf(Long.parseLong(req.getParameter("salary")));
+        String email = req.getParameter("email");
 
-        String[] rolesChoice = req.getParameterValues("roleChoice");
-        ArrayList<Role> roles = new ArrayList<>();
-        for(String role:rolesChoice){
-            roles.add(UserServiceSingleton.getInstance().getValue().getRoleIdByRoleName(role));
-        }
+        String dateOfBirth = req.getParameter("dateOfBirth");
+
 
         FieldsValidation fieldsValidation = new FieldsValidation();
+
+        boolean emptySalary = fieldsValidation.isEmptySalary(req.getParameter("salary"));
+        BigDecimal salary = fieldsValidation.setSalary(emptySalary,session,req.getParameter("salary"));
+
+        boolean emptyRoles = fieldsValidation.isEmptyRole(req.getParameterValues("roleChoice"));
+        ArrayList<Role> roles = fieldsValidation.setRoles(emptyRoles,session,req.getParameterValues("roleChoice"));
+
+
         String checkLogin = fieldsValidation.checkLogin(login);
         String checkPassword = fieldsValidation.checkPassword(password);
         String checkDate = fieldsValidation.checkDate(dateOfBirth);
-//        String checkEmail = fieldsValidation.checkEmail(email);
-//        String checkEmpty = fieldsValidation.checkEmpty(name/*,surname*/,login,password/*,email*/,dateOfBirth);
+        String checkSalary = fieldsValidation.checkSalary(salary);
+        String checkEmail = fieldsValidation.checkEmail(email);
+        String checkEmpty = fieldsValidation.checkEmpty(name, login, password, dateOfBirth, email);
 
-        //      String errString = checkLogin + checkPassword + checkDate + checkEmail + checkEmpty;
 
-//        if (errString.equals("Пользователь с таким именем уже существует.")) {
-        UserServiceSingleton.getInstance().getValue().editUser(name, login, password, dateOfBirth, age, salary, roles);
-        req.setAttribute("usersList", UserServiceSingleton.getInstance().getValue().getAllUsers());
-        session.setAttribute("message", "Пользователь " + login + " отредактирован.");
-        resp.sendRedirect(req.getContextPath() + "/users.jhtml");
-//        } else {
-//            req.setAttribute("checkLogin", checkLogin);
-//            req.setAttribute("checkPassword", checkPassword);
-//            req.setAttribute("checkDate", checkDate);
-//            req.setAttribute("checkEmail",checkEmail);
-//            req.setAttribute("checkEmpty",checkEmpty);
-//            req.getRequestDispatcher("/jsp/user_edit.jsp").forward(req, resp);
-//        }
-//    }
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = sf.parse(dateOfBirth);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        User user= new User(name,login,password,date, email,salary);
+        user.setRoles(roles);
+        session.setAttribute("editUser", user);
+
+        String errString = checkLogin + checkPassword + checkDate + checkSalary + checkEmail + checkEmpty;
+        System.out.println(errString);
+
+        if (errString.equals("Пользователь с таким именем уже существует.") && !emptySalary && !emptyRoles) {
+            session.setAttribute("message", "Пользователь " + login + " отредактирован.");
+            UserServiceSingleton.getInstance().getValue().editUser(name, login, password, dateOfBirth, email, salary, roles);
+            resp.sendRedirect(req.getContextPath() + "/users.jhtml");
+        } else {
+            req.setAttribute("checkLogin", checkLogin);
+            req.setAttribute("checkPassword", checkPassword);
+            req.setAttribute("checkDate", checkDate);
+            req.setAttribute("checkSalary", checkSalary);
+            req.setAttribute("checkEmpty", checkEmpty);
+            req.getRequestDispatcher("/jsp/user_edit.jsp").forward(req, resp);
+        }
     }
 }
-

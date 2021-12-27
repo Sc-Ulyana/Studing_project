@@ -17,9 +17,9 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao = new UserDaoImpl();
 
     @Override
-    public boolean addUser(String name, String login, String password, String dateOfBirth, int age, BigDecimal salary, ArrayList<Role> roles) {
+    public boolean addUser(String name, String login, String password, String dateOfBirth, String email, BigDecimal salary, ArrayList<Role> roles) {
         if (userDao.getUser(login) == null) {
-            userDao.addUser(name, login, password, dateOfBirth, age, salary, roles);
+            userDao.addUser(name, login, password, dateOfBirth, email, salary, roles);
             return true;
         } else {
             return false;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean editPassword(String login, String oldPassword, String newPassword, String newPasswordRepeat) {
-        String sql = "UPDATE owner.users SET password =? where login = ?";
+        String sql = "UPDATE project.users SET password =? where login = ?";
         boolean result = false;
         try (Connection conn = DBConnection.getConnect();
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -74,8 +74,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean editUser(String name, String login, String password, String dateOfBirth, int age, BigDecimal salary, ArrayList<Role> roles) {
-        userDao.editUser(name, login, password, dateOfBirth, age, salary, roles);
+    public boolean editUser(String name, String login, String password, String dateOfBirth, String email, BigDecimal salary, ArrayList<Role> roles) {
+        userDao.editUser(name, login, password, dateOfBirth, email, salary, roles);
         return true;
     }
 
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Role getRoleIdByRoleName(String name) {
         Role role = null;
-        String sql = "SELECT * FROM owner.roles WHERE name = ?";
+        String sql = "SELECT * FROM project.roles WHERE name = ?";
         try(Connection connection = DBConnection.getConnect();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1,name);

@@ -26,10 +26,9 @@
 <table>
     <tr>
         <th>Имя</th>
-<%--        <th>Фамилия</th>--%>
         <th>Логин</th>
         <th>Пароль</th>
-        <th>Возраст</th>
+        <th>Email</th>
         <th>Дата рождения</th>
         <th>Зарплата</th>
         <th>Роль</th>
@@ -39,10 +38,9 @@
     <c:forEach var="user" items="${usersList}">
         <tr>
             <td><a href="useredit.jhtml?usertoedit=${user.getLogin()}"><c:out value="${user.getName()}"/></a></td>
-<%--            <td><c:out value="${user.getSurname()}"/></td>--%>
             <td><c:out value="${user.getLogin()}"/></td>
             <td><c:out value="${user.getPassword()}"/></td>
-            <td><c:out value="${user.getAge()}"/></td>
+            <td><c:out value="${user.getEmail()}"/></td>
             <td><c:out value="${user.getDateOfBirth()}"/></td>
             <td><c:out value="${user.getSalary()}"/></td>
             <td><c:out value="${user.getRoles()}"/></td>

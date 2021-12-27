@@ -17,27 +17,24 @@ public class User {
     private String name;
     //private String email;
     private Date dateOfBirth;
-    private int age;
+    private String email;
     private BigDecimal salary;
     private ArrayList<Role> roles;
 
-    public User(int id, String name, String login, String password, Date dateOfBirth, int age, BigDecimal salary) {
-        this.id = id;
+    public User(String name, String login, String password, Date dateOfBirth, String email, BigDecimal salary) {
         this.name = name;
         //  this.surname = surname;
         this.login = login;
         this.password = password;
         //  this.email = email;
         this.dateOfBirth = dateOfBirth;
-        this.age = age;
+        this.email = email;
         this.salary = salary;
     }
 
     public String getName() {
         return name;
     }
-
-    //   public String getSurname() { return surname; }
 
     public String getLogin() {
         return login;
@@ -47,14 +44,10 @@ public class User {
         return password;
     }
 
-//    public String getEmail() { return email; }
+    public String getEmail() { return email; }
 
     public Date getDateOfBirth() {
         return dateOfBirth;
-    }
-
-    public int getAge() {
-        return age;
     }
 
     public BigDecimal getSalary() {
@@ -65,8 +58,6 @@ public class User {
         this.name = name;
     }
 
-    // public void setSurname(String surname) { this.surname = surname; }
-
     public void setLogin(String login) {
         this.login = login;
     }
@@ -75,14 +66,14 @@ public class User {
         this.password = password;
     }
 
-    // public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) { this.email = email; }
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setSalary(BigDecimal salary) {

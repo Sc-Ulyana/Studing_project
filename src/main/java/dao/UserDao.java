@@ -12,14 +12,14 @@ public interface UserDao {
             String login,
             String password,
             String dateOfBirth,
-            int age,
+            String email,
             BigDecimal salary,
             ArrayList<Role> roles
     );
 
     void deleteUser(String login);
 
-    void editUser(String name, String login, String password, String dateOfBirth, int age, BigDecimal salary, ArrayList<Role> roles);
+    void editUser(String name, String login, String password, String dateOfBirth, String email, BigDecimal salary, ArrayList<Role> roles);
 
     User getUser(String login);
 

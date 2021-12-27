@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public interface UserService {
-    boolean addUser(String name, String login, String password, String dateOfBirth, int age, BigDecimal salary, ArrayList<Role> roles);
+    boolean addUser(String name, String login, String password, String dateOfBirth, String email, BigDecimal salary, ArrayList<Role> roles);
 
     boolean editPassword(String login, String oldPassword, String newPassword, String newPasswordRepeat);
 
@@ -17,7 +17,7 @@ public interface UserService {
 
     void deleteUser(String login);
 
-    boolean editUser(String name, String login, String password, String dateOfBirth, int age, BigDecimal salary, ArrayList<Role> roles);
+    boolean editUser(String name, String login, String password, String dateOfBirth, String email, BigDecimal salary, ArrayList<Role> roles);
 
     ArrayList<User> getAllUsers();
 
