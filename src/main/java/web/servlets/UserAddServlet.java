@@ -5,6 +5,7 @@ import service.UserServiceSingleton;
 import utilities.FieldsValidation;
 import domain.User;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,6 +31,7 @@ public class UserAddServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+        ServletContext servletContext = getServletContext();
 
         String name = req.getParameter("name");
         String login = req.getParameter("login");
@@ -45,13 +47,6 @@ public class UserAddServlet extends HttpServlet {
         boolean emptyRoles = fieldsValidation.isEmptyRole(req.getParameterValues("roleChoice"));
         ArrayList<Role> roles = fieldsValidation.setRoles(emptyRoles, session, req.getParameterValues("roleChoice"));
 
-        String checkLogin = fieldsValidation.checkLogin(login);
-        String checkPassword = fieldsValidation.checkPassword(password);
-        String checkDate = fieldsValidation.checkDate(dateOfBirth);
-        String checkSalary = fieldsValidation.checkSalary(salary);
-        String checkEmail = fieldsValidation.checkEmail(email);
-        String checkEmpty = fieldsValidation.checkEmpty(name, login, password, dateOfBirth, email);
-
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
@@ -65,20 +60,14 @@ public class UserAddServlet extends HttpServlet {
         user.setRoles(roles);
         session.setAttribute("addUser", user);
 
-        System.out.println("user" + user.getName());
+        String errString = fieldsValidation.addUserCheck(servletContext,login,password,salary,email,dateOfBirth);
+        String emptyString = fieldsValidation.checkEmpty(servletContext,name,login,password,email,salary,dateOfBirth,roles);
 
-        String errString = checkLogin + checkPassword + checkDate + checkSalary + checkEmail + checkEmpty;
-
-        if (errString.equals("")) {
+        if (errString.isEmpty() && emptyString.isEmpty()) {
             session.setAttribute("message", "Пользователь " + login + " добавлен.");
             UserServiceSingleton.getInstance().getValue().addUser(name, login, password, dateOfBirth, email, salary, roles);
             resp.sendRedirect(req.getContextPath() + "/users.jhtml");
         } else {
-            req.setAttribute("checkLogin", checkLogin);
-            req.setAttribute("checkPassword", checkPassword);
-            req.setAttribute("checkDate", checkDate);
-            req.setAttribute("checkSalary", checkSalary);
-            req.setAttribute("checkEmpty", checkEmpty);
             req.getRequestDispatcher("/jsp/user_add.jsp").forward(req, resp);
         }
     }

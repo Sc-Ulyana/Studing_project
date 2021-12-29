@@ -24,13 +24,13 @@
         <div class="form_group">
             <input name="name" type="text" class="form_input" placeholder="Имя" value="${addUser.getName()}"/>
             <p class="error">
-                <c:out value="${checkEmpty}"/>
+                <c:out value="${emptyName}"/>
             </p>
         </div>
         <div class="form_group">
             <input name="login" type="text" class="form_input" placeholder="Логин" value="${addUser.getLogin()}"/>
             <p class="error">
-                <c:out value="${checkEmpty}"/>
+                <c:out value="${emptyLogin}"/>
                 <c:out value="${checkLogin}"/>
             </p>
         </div>
@@ -38,23 +38,23 @@
             <input name="password" type="password" class="form_input" placeholder="Пароль"
                    value="${addUser.getPassword()}"/>
             <p class="error">
-                <c:if test="${password==null}"><c:out value="${checkEmpty}"/></c:if>
+                <c:if test="${password==null}"><c:out value="${emptyPassword}"/></c:if>
                 <c:out value="${checkPassword}"/>
             </p>
         </div>
 
         <div class="form_group">
-            <input name="age" type="number" class="form_input" placeholder="Email" value="${addUser.getEmail()}"/>
+            <input name="email" type="text" class="form_input" placeholder="Email" value="${addUser.getEmail()}"/>
             <p class="error">
-                <c:out value="${checkAge}"/>
-                <c:out value="${emptyAge}"/>
+                <c:out value="${checkEmail}"/>
+                <c:out value="${emptyEmail}"/>
             </p>
         </div>
         <div class="form_group">
             <input name="dateOfBirth" type="date" class="form_input" placeholder="Дата рождения" min="1940-01-01"
                    max="2021-01-01" value="${addUser.getDateOfBirth()}"/>
             <p class="error">
-                <c:if test="${dateOfBirth==null}"><c:out value="${checkEmpty}"/></c:if>
+                <c:out value="${emptyDate}"/>
                 <c:out value="${checkDate}"/>
             </p>
         </div>

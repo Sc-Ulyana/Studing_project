@@ -6,6 +6,7 @@ import utilities.DBConnection;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class UserDaoImpl implements UserDao {
@@ -55,6 +56,7 @@ public class UserDaoImpl implements UserDao {
         String sqlUpdateUser = "UPDATE project.users set  password = ?, name = ?,dateofbirth=?,email=?,salary=? where login = ?;";
         String sqlSelectUserId = "SELECT id FROM project.users WHERE login = ?";
 
+
         try (Connection conn = DBConnection.getConnect();
              PreparedStatement preparedStatement = conn.prepareStatement(sqlUpdateUser);
              PreparedStatement secondPreparedStatement = conn.prepareStatement(sqlSelectUserId);) {
@@ -87,6 +89,7 @@ public class UserDaoImpl implements UserDao {
     public User getUser(String login) {
         User user = null;
         String sqlUserSelect = "SELECT * FROM project.users WHERE login = ?;";
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try (Connection conn = DBConnection.getConnect();
              PreparedStatement firstPreparedStatement = conn.prepareStatement(sqlUserSelect)) {
             firstPreparedStatement.setString(1, login);
@@ -118,12 +121,11 @@ public class UserDaoImpl implements UserDao {
     public ArrayList<User> getAllUsers() {
         User user;
         ArrayList<User> users = new ArrayList<>();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         String sqlUserSelect = "SELECT * FROM project.users;";
         try (Connection conn = DBConnection.getConnect();
              Statement stmt = conn.createStatement();) {
-
-
             ResultSet rsUsersSelect = stmt.executeQuery(sqlUserSelect);
 
             while (rsUsersSelect.next()) {
@@ -149,5 +151,4 @@ public class UserDaoImpl implements UserDao {
         }
         return users;
     }
-
 }

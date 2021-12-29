@@ -4,11 +4,14 @@ import domain.User;
 import domain.Role;
 import service.UserServiceSingleton;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -137,6 +140,69 @@ public class FieldsValidation {
             emptyMessage = "Поле обязательно для заполнения.";
         }
         return emptyMessage;
+    }
+
+    public String editUserCheck(ServletContext selvletContext, String password, BigDecimal salary, String email, String date) {
+        String checkSalary = checkSalary(salary);
+        String checkEmail = checkEmail(email);
+        String checkPassword = checkPassword(password);
+        String checkDate = checkDate(date);
+        selvletContext.setAttribute("checkSalary", checkSalary);
+        selvletContext.setAttribute("checkEmail", checkEmail);
+        selvletContext.setAttribute("checkPassword", checkPassword);
+        selvletContext.setAttribute("checkDate", checkDate);
+        String errMassage = checkEmail + checkDate + checkSalary + checkPassword;
+        return errMassage;
+    }
+
+    public String addUserCheck(ServletContext servletContext, String login, String password, BigDecimal salary,String email, String date) {
+        String checkSalary = checkSalary(salary);
+        String checkEmail = checkEmail(email);
+        String checkPassword = checkPassword(password);
+        String checkDate = checkDate(date);
+        String checkLogin = checkLogin(login);
+        servletContext.setAttribute("checkLogin", checkLogin);
+        servletContext.setAttribute("checkSalary", checkSalary);
+        servletContext.setAttribute("checkEmail", checkEmail);
+        servletContext.setAttribute("checkPassword", checkPassword);
+        servletContext.setAttribute("checkDate", checkDate);
+        String errMassage = checkLogin + checkEmail + checkDate + checkSalary + checkPassword;
+        return errMassage;
+    }
+
+    public String checkEmpty(ServletContext servletContext, String name, String login, String password, String email, BigDecimal salary, String date, ArrayList<Role> roles) {
+        String emptyString = "Поле обязательно для заполнения";
+        String emptyRoles = "Выберите роль";
+        String errString = "";
+        if (name.isEmpty()) {
+            servletContext.setAttribute("emptyName", emptyString);
+            errString += "name";
+        }
+        if (login.isEmpty()) {
+            servletContext.setAttribute("emptyLogin", emptyString);
+            errString += "login";
+        }
+        if (password.isEmpty()) {
+            servletContext.setAttribute("emptyPassword", emptyString);
+            errString += "password";
+        }
+        if (email.isEmpty()) {
+            servletContext.setAttribute("emptyEmail", emptyString);
+            errString += "age";
+        }
+        if (salary == null) {
+            servletContext.setAttribute("emptySalary", emptyString);
+            errString += "salary";
+        }
+        if (date.isEmpty()) {
+            servletContext.setAttribute("emptyDate", emptyString);
+            errString += "date";
+        }
+        if (roles.toString().equals("[]")) {
+            servletContext.setAttribute("emptyRoles", emptyRoles);
+            errString += "roles";
+        }
+        return errString;
     }
 }
 

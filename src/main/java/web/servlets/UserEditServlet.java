@@ -6,6 +6,7 @@ import domain.User;
 import service.UserServiceSingleton;
 import utilities.FieldsValidation;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,14 +42,16 @@ public class UserEditServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+        ServletContext servletContext = getServletContext();
 
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
 
+        System.out.println("email"+email);
         String dateOfBirth = req.getParameter("dateOfBirth");
-
+        System.out.println(dateOfBirth);
 
         FieldsValidation fieldsValidation = new FieldsValidation();
 
@@ -58,41 +61,30 @@ public class UserEditServlet extends HttpServlet {
         boolean emptyRoles = fieldsValidation.isEmptyRole(req.getParameterValues("roleChoice"));
         ArrayList<Role> roles = fieldsValidation.setRoles(emptyRoles,session,req.getParameterValues("roleChoice"));
 
-
-        String checkLogin = fieldsValidation.checkLogin(login);
-        String checkPassword = fieldsValidation.checkPassword(password);
-        String checkDate = fieldsValidation.checkDate(dateOfBirth);
-        String checkSalary = fieldsValidation.checkSalary(salary);
-        String checkEmail = fieldsValidation.checkEmail(email);
-        String checkEmpty = fieldsValidation.checkEmpty(name, login, password, dateOfBirth, email);
-
+        String errString = fieldsValidation.editUserCheck(servletContext,password,salary,email,dateOfBirth);
+        String emptyString = fieldsValidation.checkEmpty(servletContext,name,login,password,email,salary,dateOfBirth,roles);
 
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
+
+        if(!dateOfBirth.isEmpty()){
         try {
             date = sf.parse(dateOfBirth);
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        }
 
         User user= new User(name,login,password,date, email,salary);
         user.setRoles(roles);
-        session.setAttribute("editUser", user);
 
-        String errString = checkLogin + checkPassword + checkDate + checkSalary + checkEmail + checkEmpty;
-        System.out.println(errString);
-
-        if (errString.equals("Пользователь с таким именем уже существует.") && !emptySalary && !emptyRoles) {
+        if (errString.isEmpty() && emptyString.isEmpty()) {
             session.setAttribute("message", "Пользователь " + login + " отредактирован.");
             UserServiceSingleton.getInstance().getValue().editUser(name, login, password, dateOfBirth, email, salary, roles);
             resp.sendRedirect(req.getContextPath() + "/users.jhtml");
         } else {
-            req.setAttribute("checkLogin", checkLogin);
-            req.setAttribute("checkPassword", checkPassword);
-            req.setAttribute("checkDate", checkDate);
-            req.setAttribute("checkSalary", checkSalary);
-            req.setAttribute("checkEmpty", checkEmpty);
+            session.setAttribute("editUser",user);
             req.getRequestDispatcher("/jsp/user_edit.jsp").forward(req, resp);
         }
     }

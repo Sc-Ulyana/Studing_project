@@ -1,21 +1,14 @@
 package domain;
 
-
-import service.UserServiceSingleton;
-
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 
 public class User {
     private int id;
-    //private String surname;
     private String login;
     private String password;
     private String name;
-    //private String email;
     private Date dateOfBirth;
     private String email;
     private BigDecimal salary;
@@ -23,10 +16,8 @@ public class User {
 
     public User(String name, String login, String password, Date dateOfBirth, String email, BigDecimal salary) {
         this.name = name;
-        //  this.surname = surname;
         this.login = login;
         this.password = password;
-        //  this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.salary = salary;
